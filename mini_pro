@@ -1,0 +1,59 @@
+#include <GL/glut.h>
+#include <cmath>
+
+// Abstract base class
+class Shape {
+public:
+    virtual void draw() = 0; // Pure virtual function for drawing the shape
+};
+
+class BouncingBall : public Shape {
+private:
+    float x, y;
+    float amplitude, frequency;
+    float time;
+public:
+    BouncingBall(float a, float f) : amplitude(a), frequency(f), time(0.0f) {
+        x = 0.0f;
+        y = amplitude * sin(frequency * time);
+    }
+
+    void update() {
+        time += 0.1f;
+        x += 0.05f;
+        y = amplitude * sin(frequency * time);
+        if (x > 1.0f) x = -1.0f;
+    }
+
+    void draw() override {
+        update();
+        glClear(GL_COLOR_BUFFER_BIT);
+        glLoadIdentity();
+        glTranslatef(x, y, 0.0f);
+        glColor3f(1.0f, 0.0f, 0.0f);
+        glutSolidSphere(0.05, 50, 50);
+        glFlush();
+        glutSwapBuffers();
+    }
+};
+
+Shape* ball;
+
+void display() {
+    ball->draw();
+}
+
+int main(int argc, char** argv) {
+    glutInit(&argc, argv);
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
+    glutInitWindowSize(500, 500);
+    glutCreateWindow("Bouncing Ball using Sine Wave");
+    ball = new BouncingBall(0.5f, 2.0f);
+    glutDisplayFunc(display);
+    glutIdleFunc(display);
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glutMainLoop();
+    delete ball;
+    return 0;
+}
+//g++ -o prog pro.cpp -lGL -lGLU -lglut
