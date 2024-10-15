@@ -1,0 +1,132 @@
+/*
+*  Write C++ program using STL for sorting and searching user defined records such as Item
+ *	records (Item code, name, cost, quantity etc) using vector container.
+ */
+#include <bits/stdc++.h>
+#include <vector>
+#include <iostream>
+using namespace std;
+
+class Record{
+    
+    public:
+    int code;
+    string name;
+    float cost;
+    int quantity;
+
+    Record(){
+        code = 0;
+        name = "";
+        cost = 0.0;
+        quantity = 0;
+    }
+     bool operator<(const Record& other) const {
+        return code < other.code;
+    }
+
+    bool operator==(const Record& other) const {
+        return code == other.code;
+    }
+};
+
+class stl:public Record{
+    vector<Record> vt;
+
+    
+    public:
+
+    void insert(){
+        Record r;
+        cin.ignore();
+        cout<<"\nEnter Item Name:";
+        cin>>r.name;
+        cout<<"\nEnter Item Quantity:";
+        cin>>r.quantity;
+        cout<<"\nEnter Item Cost:";
+        cin>>r.cost;
+        cout<<"\nEnter Item Code:";
+        cin>>r.code;
+        vt.push_back(r);
+    }
+
+    void display(){
+        for(auto i:vt){
+            cout << "Name: " << i.name << ", Quantity: " << i.quantity 
+            << ", Code: " << i.code << ", Cost: " << i.cost << endl;
+        }        
+    }
+
+    void sorting(){
+        sort(vt.begin(),vt.end());
+    }
+
+    void search(int code){
+        cout<<"\nEnter code of item to be searched: ";
+        cin>>code;
+
+        vector<Record> :: iterator p;
+        p = find_if(vt.begin(), vt.end(), [code](const Record& r) {
+            return r.code == code;
+        });
+        if(p!=vt.end())
+         cout << "\nElement Found: " << p->name << ", Quantity: " << p->quantity 
+                 << ", Cost: " << p->cost << endl;
+        else
+            cout << "\nElement not found.";
+    }
+
+    void del(int code){
+        cout<<"\nEnter code of item to be deleted: ";
+        cin>>code;
+        vector<Record> :: iterator p;
+
+         p = find_if(vt.begin(), vt.end(), [code](const Record& r) {
+            return r.code == code;
+        });
+        if(p!=vt.end()){
+            vt.erase(p);
+        }
+        else
+            cout << "\nElement not found.";
+
+    }
+
+};
+
+int main(){
+    stl code;
+    int choice;
+    
+    do{
+        cout << "\n1. Insert Item\n2. Display Items\n3. Sort Items\n4. Search Item\n5. Delete Item\n6. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+        int x;
+
+        switch (choice) {
+            case 1:
+                code.insert();
+                break;
+            case 2:
+                code.display();
+                break;
+            case 3:
+                code.sorting();
+                break;
+            case 4:
+                code.search(x);
+                break;
+            case 5:
+                code.del(x);
+                break;
+            case 6:
+                cout << "Exiting..." << endl;
+                break;
+            default:
+                cout << "Invalid choice." << endl;
+        }
+    }
+    while(choice!=6);
+
+}
