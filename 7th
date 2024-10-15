@@ -1,0 +1,71 @@
+#include <iostream>
+#include<bits/stdc++.h>
+using namespace std;
+
+int main(){
+
+    map<string,int> states;
+        states.insert(make_pair("Maharashtra", 125));
+		states.insert(make_pair("Karnataka", 68));
+		states.insert(make_pair("Tamil Nadu", 80));
+		states.insert(make_pair("Rajasthan", 78));
+		states.insert(make_pair("Odisha", 47));
+		states.insert(make_pair("Kerala", 38));
+		states.insert(make_pair("Telangana", 37));
+		states.insert(make_pair("Assam", 35));
+		states.insert(make_pair("Jharkhand", 38));
+		states.insert(make_pair("Karnataka", 68));
+		states.insert(make_pair("Gujarat", 70));
+		states.insert(make_pair("Punjab", 31));
+		states.insert(make_pair("Chhattisgarh", 30));
+		states.insert(make_pair("Haryana", 29));
+		states.insert(make_pair("Uttarakhand", 12));
+		states.insert(make_pair("Tripura", 04));
+		states.insert(make_pair("Meghalaya", 4));
+		states.insert(make_pair("Manipur", 3));
+		states.insert(make_pair("Nagaland", 2));
+		states.insert(make_pair("Goa", 2));
+		states.insert(make_pair("Mizoram", 1));
+		states.insert(make_pair("Sikkim", 1));
+        states.insert(make_pair("Uttar Pradesh", 20));
+        states.insert(make_pair("Madhya Pradesh", 20));
+
+
+        
+        string state_find;
+        bool flag = 1;
+        char ch;
+
+        while(flag!=0){
+        cout<<"\nEnter name of state you want to find: ";
+        cin>>state_find;
+
+        if(states.find(state_find)!=states.end()){
+            cout<<"\nThe population of the state "<<state_find<<" "<<"is : "<<states[state_find]<<" million. "<<endl;
+			cout<<"\nTo Check Again press y "<<endl;
+			cout<<"\nTo Exit the program press n "<<endl;
+			cin>>ch;
+			if(ch=='y'){		states.insert(make_pair("Sikkim", 1));
+				continue;
+			}
+			if(ch=='n'){
+				cout<<"Exiting the program "<<endl;
+				flag = 0;
+			}
+        }
+        else{
+            cout<<"\nState not found";
+            cout<<"\nTo Check Again Press y "<<endl;
+			cout<<"\nTo Exit the program Press n "<<endl;
+			cin>>ch;
+			if(ch=='y'){
+				continue;
+			}
+			if(ch=='n'){
+				cout<<"Exiting the program "<<endl;
+				flag = 0;
+			}
+        }
+        }
+        return 0;
+}
