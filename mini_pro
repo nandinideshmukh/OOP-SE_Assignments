@@ -27,28 +27,39 @@ public:
 
     void draw() override {
         update();
-        glClear(GL_COLOR_BUFFER_BIT);
         glLoadIdentity();
         glTranslatef(x, y, 0.0f);
-        glColor3f(1.0f, 0.0f, 0.0f);
-        glutSolidSphere(0.05, 50, 50);
-        glFlush();
-        glutSwapBuffers();
+        glColor3f(0.0f, 1.0f, 0.0f);
+        glutSolidSphere(0.06, 50, 50);
     }
 };
 
 Shape* ball;
 
 void display() {
+    glClear(GL_COLOR_BUFFER_BIT);
+    glLoadIdentity();
+
+    glColor3f(1.0f, 0.0f, 0.0f); 
+
+    // Draw line here
+    glBegin(GL_LINES);
+
+    glVertex2i(-1, 0); 
+    glVertex2i(1, 0);
+    glEnd();
     ball->draw();
+
+    glFlush();
+    glutSwapBuffers();
 }
 
 int main(int argc, char** argv) {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
-    glutInitWindowSize(500, 500);
+    glutInitWindowSize(800, 700);
     glutCreateWindow("Bouncing Ball using Sine Wave");
-    ball = new BouncingBall(0.5f, 2.0f);
+    ball = new BouncingBall(0.8f, 1.0f);
     glutDisplayFunc(display);
     glutIdleFunc(display);
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -56,4 +67,5 @@ int main(int argc, char** argv) {
     delete ball;
     return 0;
 }
-//g++ -o prog pro.cpp -lGL -lGLU -lglut
+
+// g++ -o prog pro.cpp -lGL -lGLU -lglut
