@@ -1,0 +1,72 @@
+#include <GL/glut.h>
+
+float colorTransition = 0.0;
+float sunY = 0.0;
+bool rising = true;
+
+void init() {
+    glClearColor(0.0, 0.0, 0.0, 1.0);
+    glMatrixMode(GL_PROJECTION);
+    gluOrtho2D(0, 500, 0, 500);
+}
+
+void display() {
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    // Sky gradient: changing from black to bright and back
+    glBegin(GL_QUADS);
+    glColor3f(0.0, 0.0, 0.0); // Night sky
+    glVertex2i(0, 0);
+    glVertex2i(500, 0);
+    glColor3f(1.0, colorTransition, 0.0); // Sunrise to sunset
+    glVertex2i(500, 250);
+    glVertex2i(0, 250);
+
+    glColor3f(1.0, colorTransition, 0.0); // Sunrise to sunset
+    glVertex2i(0, 250);
+    glVertex2i(500, 250);
+    glColor3f(1.0 - colorTransition, 0.5 - (colorTransition / 2), 0.0); // Sunset to night
+    glVertex2i(500, 500);
+    glVertex2i(0, 500);
+    glEnd();
+
+    // Sun
+    glColor3f(1.0, 1.0, 1.0); 
+    glPushMatrix();
+    glTranslatef(250, sunY, 0);
+    glutSolidSphere(30, 50, 50);
+    glPopMatrix();
+
+    glFlush();
+}
+
+void update(int value) {
+    if (rising) {
+        colorTransition += 0.01;
+        sunY = 250 * colorTransition; // Move sun up
+        if (colorTransition > 1.0) {
+            rising = false;
+        }
+    } else {
+        colorTransition -= 0.01;
+        sunY = 250 * colorTransition; // Move sun down
+        if (colorTransition < 0.0) {
+            rising = true;
+        }
+    }
+
+    glutPostRedisplay();
+    glutTimerFunc(100, update, 0);
+}
+
+int main(int argc, char** argv) {
+    glutInit(&argc, argv);
+    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
+    glutInitWindowSize(500, 500);
+    glutCreateWindow("Sunrise and Sunset with White Sun");
+    init();
+    glutDisplayFunc(display);
+    glutTimerFunc(100, update, 0);
+    glutMainLoop();
+    return 0;
+}
