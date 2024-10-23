@@ -91,12 +91,13 @@ database* findStudent(int rn){
 
 return NULL;
 }
-void deleteStudent(int rn){
-    for(database* st:dt){
-        if(st->getrn()==rn)
-        delete st;
-        dt.erase(*st);
-        return;
+void deleteStudent(int rn) {
+    for(auto it = dt.begin(); it != dt.end(); ++it) {
+        if((*it)->getrn() == rn) {
+            delete *it;  
+            dt.erase(it);  
+            return;  
+        }
     }
 }
 friend class menu;
